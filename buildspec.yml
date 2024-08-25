@@ -3,6 +3,9 @@
     shell: bash
     parameter-store:
       GITHUB_TOKEN: "GITHUB_TOKEN"
+    variables:
+      REPO_NAME: "rectjs-frontend"
+      BRANCH_NAME: "master"
   phases:
     install:
       runtime-versions: 
@@ -11,9 +14,9 @@
       on-failure: ABORT
       commands:
       - echo 'Start pre build phase'
-      - export REPO_NAME=$(jq -r '.repo_name' metadata.json)
-      - export BRANCH_NAME=$(jq -r '.branch_name' metadata.json)
-      - export COMMIT_HASH=$(jq -r '.commit_id' metadata.json)
+      # - export REPO_NAME=$(jq -r '.repo_name' metadata.json)
+      # - export BRANCH_NAME=$(jq -r '.branch_name' metadata.json)
+      # - export COMMIT_HASH=$(jq -r '.commit_id' metadata.json)
       - mkdir working_dir && cd working_dir
       - git clone https://oauth2:$GITHUB_TOKEN@github.com/$REPO_NAME .
       - git checkout $BRANCH_NAME
@@ -21,9 +24,9 @@
       commands:
       - ls -la
       - pwd
-      - aws ssm get-parameter --with-decryption --name /$${ENV}-$${PROJECT}-fe-admin --region $${AWS_REGION} | jq -r '.Parameter.Value' > .env
+      - aws ssm get-parameter --with-decryption --name /test/sotaicg-platform/frontend --region $${AWS_REGION} | jq -r '.Parameter.Value' > .env
       
-      - aws ssm get-parameter --with-decryption --name /$${ENV}-$${PROJECT}-be --region $${AWS_REGION} | jq -r '.Parameter.Value' > .env
+      # - aws ssm get-parameter --with-decryption --name /$${ENV}-$${PROJECT}-be --region $${AWS_REGION} | jq -r '.Parameter.Value' > .env
       # - aws secretsmanager get-secret-value --secret-id /voy/prod/backend --region us-west-1 | jq -r '.SecretString' | jq -r "to_entries|map(\"\(.key)=\\\"\(.value|tostring)\\\"\")|.[]" > .env
       - cat .env
       - npm install --frozen-lockfile
