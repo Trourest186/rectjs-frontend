@@ -32,7 +32,7 @@
       # - aws secretsmanager get-secret-value --secret-id /voy/prod/backend --region us-west-1 | jq -r '.SecretString' | jq -r "to_entries|map(\"\(.key)=\\\"\(.value|tostring)\\\"\")|.[]" > .env
       - cat .env
       - npm install --frozen-lockfile
-      - npm build
+      - npm run build
       - echo "----------SYNC FILE TO S3 BUCKET----------------"
       - aws s3 sync ./build s3:/test-sotaicg-platform-storage
       - echo "----------CLEAR CACHE CLOUDFRONT----------------"
