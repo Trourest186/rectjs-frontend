@@ -20,7 +20,7 @@
       # - export COMMIT_HASH=$(jq -r '.commit_id' metadata.json)
       - mkdir working_dir && cd working_dir
       - GITHUB_TOKEN=$(aws ssm get-parameter --with-decryption --name /test/sotaicg-platform/G_TOKEN --region us-east-1 | jq -r '.Parameter.Value')
-      - git clone https://oauth2:$GITHUB_TOKEN@github.com/$REPO_NAME .
+      - git clone https://oauth2:$GITHUB_TOKEN@github.com/Trourest186/$REPO_NAME .
       - git checkout $BRANCH_NAME
     build:
       commands:
